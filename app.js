@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const app = express();
 const bodyParser = require('body-parser');
-const Router = require('./router/router');
+const Router = require('./router/payment');
 const cors = require('cors');
 const mongoose = require('mongoose');
 dotenv.config();
@@ -13,7 +13,7 @@ app.use(cors({
     origin: '*'
 }));
 // router
-app.use('/', Router);
+app.use('/api/', Router);
 // view engine setup
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
