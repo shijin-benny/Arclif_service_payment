@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-hbs": "^2.4.0",
+    "hbs": "^4.2.0",
+    "mongoose": "^6.3.1",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
+    "razorpay": "^2.8.1"
+  },
+  "name": "arclfs-services",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
