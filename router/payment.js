@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const payment = require('../payment_Integration/razorpay');
-const userhelper = require('../controller/userhelper');
+const paymenthelper = require('../controller/paymentHelper');
 
 // ================ Payment Order ===================== //
-router.post('/paymentOrder',userhelper.paymentOrder)
+router.post('/paymentOrder',paymenthelper.paymentOrder)
 
 // ================ Payment Verify ===================== //
-router.post('/verifyPayment/:id',userhelper.paymentVerify);
+router.post('/verifyPayment/:id',paymenthelper.paymentVerify);
+
+// ================ Cart view ===================== //
 
 
 router.get('/get', (req, res) => {
