@@ -11,6 +11,12 @@ router.post('/verifyPayment/:id',paymenthelper.paymentVerify);
 // ================ Cart view ===================== //
 
 
+router.get('/mail',(req,res)=>{
+    res.render('receipt');
+})
+
+router.get('/delete',paymenthelper.delete);
+
 router.get('/get', (req, res) => {
     res.render('index')
 })

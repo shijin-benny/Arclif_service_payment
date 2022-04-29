@@ -25,7 +25,7 @@
     </div>
 </body>
 <script>
-    axios.post('/paymentOrder', {
+    axios.post('/api/paymentOrder', {
         "userId": "2",
 
     }).then((info) => {
@@ -36,7 +36,7 @@
             "description": "Test Transaction",
             "image": "https://rone-demo.vercel.app/static/media/Logo1.157c110206badb2674bb8db1397d91a0.svg",
             "order_id": info.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "callback_url": `/verifyPayment/${userId}`,
+            "callback_url": `/api/verifyPayment/${userId}`,
             "theme": {
                 "color": "#3399cc"
             }

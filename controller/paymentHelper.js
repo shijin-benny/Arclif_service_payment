@@ -1,5 +1,6 @@
 const paymentSchema = require('../model/paymentSchema');
 const razorpayPayment = require('../payment_Integration/razorpay');
+const sendMail = require("../controller/Nodemailer/nodemailer");
 
 module.exports = {
 
@@ -22,27 +23,41 @@ module.exports = {
         res.json(err);
     })
     },
-
     //========= verify payment and update payment status to database ========//
     paymentVerify:(req,res)=>{
         razorpayPayment.verifyPayment(req.body).then(order=>{
            paymentSchema.updateOne({userId:req.params.id},{
-                paymentId:order.razorpay_payment_id,
-                amount:order.amount,
+                paymentId:order.id,
+                amount:order.amount / 100,
                 paymentStatus:order.status,
                 method:order.method,
                 email:order.email,
-                orderId:order.order_id
+                orderId:order.order_id,
+                fee : order.fee / 100,
+                tax : order.tax / 100,
               },(err,data)=>{
                 if(err){
                     res.json({error:err,message:'Payment updation failed'});
                 }else{
-                    res.json({status:200,message:'Payment Successfull'});
+                    sendMail.receiptMail(order).then(mail=>{
+                        res.json({status:200,message:'Payment verified successfully'});
+                    }).catch(err=>{
+                        res.json({error:err,message:'Payment verified successfully but mail sending failed'});
+                    })
                 }
             }
             )
         }).catch(err=>{
             res.json({status:500,message:'Payment not verified'});
         })
-    }  
+    },
+    delete:( req,res)=>{
+        paymentSchema.deleteMany({},(err,data)=>{
+            if(err){
+                res.json({error:err,message:'Payment updation failed'});
+            }else{
+                res.json({status:200,message:'Payment deleted successfully'});
+            }
+        })
+    },  
 }
