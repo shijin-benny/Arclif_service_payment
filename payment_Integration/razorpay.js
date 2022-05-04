@@ -9,7 +9,7 @@ const razorpay = new Razorpay({
 
 module.exports = {
     
-// ================== create Order =========================== //
+//<!================== create Order ===========================/>//
     createOrder: (amount) => {
         return new Promise((resolve, reject) => {
             razorpay.orders.create({
@@ -24,9 +24,7 @@ module.exports = {
             });
         })
     },
-// ============================================================ //    
-
-// ================== verify Payment =========================== //
+//<!================== verify payment ===========================/>//
     verifyPayment: (paymentData) => {
         return new Promise((resolve, reject) => {
             razorpay.payments.fetch(paymentData.razorpay_payment_id, function (err, payment) {
@@ -41,6 +39,5 @@ module.exports = {
                 }
             });
         })
-    },
-// ============================================================ //  
+    }, 
 }

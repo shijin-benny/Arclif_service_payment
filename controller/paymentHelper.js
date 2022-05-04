@@ -3,7 +3,7 @@ const razorpayPayment = require('../payment_Integration/razorpay');
 const sendMail = require("../controller/Nodemailer/nodemailer");
 
 module.exports = {
-    // ===== create payment order and inset userid,orderId to database ======= //
+    //<!===== create payment order and inset userid,orderId to database =======/> //
     paymentOrder:(req,res)=>{
        razorpayPayment.createOrder(req.body.amount).then(order=>{
            if(order.status === 'created'){
@@ -22,7 +22,7 @@ module.exports = {
         res.json(err);
     })
     },
-    //========= verify payment and update payment status to database ========//
+    //<!========= verify payment and update payment status to database ========/>//
     paymentVerify:(req,res)=>{
         razorpayPayment.verifyPayment(req.body).then(order=>{
            paymentSchema.updateOne({userId:req.params.id},{

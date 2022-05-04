@@ -6,15 +6,15 @@ const async = require('hbs/lib/async');
 const hbs = require('nodemailer-express-handlebars');
 const path = require('path');
 
-//========================== credentials ===============================//
+//<!========================== credentials ===============================/>//
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URL = process.env.REDIRECT_URL;
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
-//========================= Google Oauth2 ===============================//
+//<!========================= Google Oauth2 ===============================/>//
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-//=========================   smtp setup  ==================================//
+//<!=========================   smtp setup  ==================================/>//
 async function sendEmail(mailOptions) {
     try {
         const accesstoken = await oauth2Client.getAccessToken();
@@ -29,7 +29,7 @@ async function sendEmail(mailOptions) {
                 accessToken: accesstoken
             }
         });
-        // template engine setting
+        //<!===== template engine setting =====>//
         const handlebarsOptions = {
             viewEngine: {
                 extName: '.hbs',
@@ -49,6 +49,7 @@ async function sendEmail(mailOptions) {
 }  
 
 module.exports = {
+  //<!================== send receipt ===========================/>//
     receiptMail:(order)=>{
         const amount = order.amount / 100;
         const fee = order.fee / 100;
