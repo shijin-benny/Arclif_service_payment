@@ -3,10 +3,9 @@ const razorpayPayment = require('../payment_Integration/razorpay');
 const sendMail = require("../controller/Nodemailer/nodemailer");
 
 module.exports = {
-
     // ===== create payment order and inset userid,orderId to database ======= //
     paymentOrder:(req,res)=>{
-       razorpayPayment.createOrder().then(order=>{
+       razorpayPayment.createOrder(req.body.amount).then(order=>{
            if(order.status === 'created'){
                const paymentData = paymentSchema({
                      orderId:order.id,
@@ -51,13 +50,4 @@ module.exports = {
             res.json({status:500,message:'Payment not verified'});
         })
     },
-    delete:( req,res)=>{
-        paymentSchema.deleteMany({},(err,data)=>{
-            if(err){
-                res.json({error:err,message:'Payment updation failed'});
-            }else{
-                res.json({status:200,message:'Payment deleted successfully'});
-            }
-        })
-    },  
 }

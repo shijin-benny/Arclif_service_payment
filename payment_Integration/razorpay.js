@@ -10,10 +10,10 @@ const razorpay = new Razorpay({
 module.exports = {
     
 // ================== create Order =========================== //
-    createOrder: () => {
+    createOrder: (amount) => {
         return new Promise((resolve, reject) => {
             razorpay.orders.create({
-                amount: '5000',
+                amount: amount,
                 currency: 'INR',
             }, function (err, order) {
                 if (err) {
