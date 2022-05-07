@@ -37,6 +37,7 @@ module.exports = {
                         console.log(payment);
                         resolve(payment);
                     } else {
+                        console.log(payment);
                         reject({ error: 'Payment not captured' });
                     }
                 }
