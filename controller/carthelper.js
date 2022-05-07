@@ -45,7 +45,7 @@ module.exports = {
       }
     ])
       .then(result => {
-        const grant_total = result.map((items) => {
+        const cartItems = result.map((items) => {
              return{
                _id: items._id,
                 paymentplan_id: items.paymentplan_id,
@@ -57,11 +57,10 @@ module.exports = {
              }
         }
         );
-         res.json(grant_total);
+         res.json(cartItems);
       }) .catch(err => {
         res.json(err);
       })
-
   }
 
 }
