@@ -28,7 +28,7 @@ module.exports = {
         console.log(req.params.id);
         razorpayPayment.verifyPayment(req.body).then(order => {
             console.log(order);
-            paymentSchema.updateOne({ userId: req.params.id }, {
+            paymentSchema.updateOne({ userId: obreq.params.id }, {
                 paymentId: order.id,
                 amount: order.amount / 100,
                 paymentStatus: order.status,
