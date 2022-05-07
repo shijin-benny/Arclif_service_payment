@@ -32,6 +32,7 @@ module.exports = {
                     reject(err);
                 } else {
                     if (payment.status === 'captured') {
+                        console.log(payment);
                         resolve(payment);
                     } else {
                         reject({ error: 'Payment not captured' });
