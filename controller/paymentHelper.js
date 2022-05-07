@@ -25,7 +25,7 @@ module.exports = {
     //<!========= verify payment and update payment status to database ========/>//
     paymentVerify: (req, res) => {
         razorpayPayment.verifyPayment(req.body).then(order => {
-            paymentSchema.updateOne({ userId: obreq.params.id }, {
+            paymentSchema.updateOne({ userId:req.params.id }, {
                 paymentId: order.id,
                 amount: order.amount / 100,
                 paymentStatus: order.status,
