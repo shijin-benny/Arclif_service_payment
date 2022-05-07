@@ -53,4 +53,14 @@ module.exports = {
             res.json({ status: 500, message: 'Payment not verified' });
         })
     },
+    delete: (req, res) => {
+        console.log(req.body);
+        paymentSchema.deleteMany({ userId: ObjectId(req.body.id) }, (err, data) => {
+            if (err) {
+                res.json({ error: err, message: 'Payment deletion failed' });
+            }else{
+                res.json({ status: 200, message: 'Payment deleted successfully' });
+            }    
+        } ) 
+    }
 }
