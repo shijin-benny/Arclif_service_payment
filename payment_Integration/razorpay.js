@@ -26,18 +26,16 @@ module.exports = {
     },
 //<!================== verify payment ===========================/>//
     verifyPayment: (paymentData) => {
-        console.log(paymentData);
         return new Promise((resolve, reject) => {
             razorpay.payments.fetch(paymentData.razorpay_payment_id, function (err, payment) {
                 if (err) {
-                    console.log(err);
                     reject(err);
                 } else {
                     if (payment.status === 'captured') {
-                        console.log(payment);
                         resolve(payment);
-                    } else {
-                        console.log(payment);
+                    } else if(payment.status === 'authorized'){
+                        resolve(payment);
+                    }else{
                         reject({ error: 'Payment not captured' });
                     }
                 }
