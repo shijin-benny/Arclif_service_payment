@@ -8,22 +8,21 @@ module.exports = {
     //<!===== create payment order and inset userid,orderId to database =======/> //
     paymentOrder: (req, res) => {
         razorpayPayment.createOrder(req.body.amount).then(order => {
-            console.log(order);
-            // if (order.status === 'created') {
-            //     const paymentData = paymentSchema({
-            //         orderId: order.id,
-            //         userId: req.body.userId,
-            //     })
-            //     paymentData.save().then(data => {
-            //         console.log(data);
-            //         console.log(order);
-            //         res.json({ status: 200, order: order });
-            //     }
-            //     ).catch(err => {
-            //         console.log(err);
-            //         res.json(err);
-            //     })
-            // }
+            if (order.status === 'created') {
+                const paymentData = paymentSchema({
+                    orderId: order.id,
+                    userId: req.body.userId,
+                })
+                paymentData.save().then(data => {
+                    console.log(data);
+                    console.log(order);
+                    res.json({ status: 200, order: order });
+                }
+                ).catch(err => {
+                    console.log(err);
+                    res.json(err);
+                })
+            }
         }).catch(err => {
             res.json(err);
         })
@@ -31,8 +30,6 @@ module.exports = {
     //<!========= verify payment and update payment status to database ========/>//
     paymentVerify: (req, res) => {
         razorpayPayment.verifyPayment(req.body).then(order => {
-            console.log(order);
-            console.log(req.params.id);
             paymentSchema.updateOne({ userId:ObjectId(req.params.id) }, {
                 paymentId: order.id,
                 amount: order.amount / 100,
@@ -43,7 +40,6 @@ module.exports = {
                 fee: order.fee / 100,
                 tax: order.tax / 100,
             }, (err, data) => {
-                console.log(data);
                 if (err) {
                     res.json({ error: err, message: 'Payment updation failed' });
                 } else {
@@ -56,7 +52,6 @@ module.exports = {
             }
             )
         }).catch(err => {
-            console.log(err);
             res.json({ status: 500, message: 'Payment not verified' });
         })
     },
