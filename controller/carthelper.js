@@ -1,15 +1,11 @@
-const paymentplan = require('../model/paymentplan');
+const userplan_tbs = require('../model/userplan_tbs');
 
 
 module.exports = {
     cartview: (req, res) => {
-        paymentplan.find({_id:req.params.id},(err,data)=>{
-              if(err){
-                res.json({error:err,message:'Failed to get payment plan'});
-              }else{
-                res.json({status:200,data:data});
-              }
-       })
+        userplan_tbs.findOne({login_id:req.params.id},(err,data)=>{
+          console.log(data);
+        })
     }
         
 }
