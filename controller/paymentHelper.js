@@ -19,6 +19,7 @@ module.exports = {
                     res.json({ status: 200, order: order });
                 }
                 ).catch(err => {
+                    console.log(err);
                     res.json(err);
                 })
             }
