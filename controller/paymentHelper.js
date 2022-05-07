@@ -9,21 +9,21 @@ module.exports = {
     paymentOrder: (req, res) => {
         razorpayPayment.createOrder(req.body.amount).then(order => {
             console.log(order);
-            if (order.status === 'created') {
-                const paymentData = paymentSchema({
-                    orderId: order.id,
-                    userId: req.body.userId,
-                })
-                paymentData.save().then(data => {
-                    console.log(data);
-                    console.log(order);
-                    res.json({ status: 200, order: order });
-                }
-                ).catch(err => {
-                    console.log(err);
-                    res.json(err);
-                })
-            }
+            // if (order.status === 'created') {
+            //     const paymentData = paymentSchema({
+            //         orderId: order.id,
+            //         userId: req.body.userId,
+            //     })
+            //     paymentData.save().then(data => {
+            //         console.log(data);
+            //         console.log(order);
+            //         res.json({ status: 200, order: order });
+            //     }
+            //     ).catch(err => {
+            //         console.log(err);
+            //         res.json(err);
+            //     })
+            // }
         }).catch(err => {
             res.json(err);
         })
