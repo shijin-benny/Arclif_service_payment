@@ -13,7 +13,7 @@ module.exports = {
     createOrder: (amount) => {
         return new Promise((resolve, reject) => {
             razorpay.orders.create({
-                amount: amount,
+                amount: amount * 100,
                 currency: 'INR',
             }, function (err, order) {
                 if (err) {

@@ -14,8 +14,6 @@ module.exports = {
                     userId: req.body.userId,
                 })
                 paymentData.save().then(data => {
-                    console.log(data);
-                    console.log(order);
                     res.json({ status: 200, order: order });
                 }
                 ).catch(err => {
