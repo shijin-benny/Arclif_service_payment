@@ -26,6 +26,7 @@ module.exports = {
     },
 //<!================== verify payment ===========================/>//
     verifyPayment: (paymentData) => {
+        console.log(paymentData);
         return new Promise((resolve, reject) => {
             razorpay.payments.fetch(paymentData.razorpay_payment_id, function (err, payment) {
                 if (err) {
