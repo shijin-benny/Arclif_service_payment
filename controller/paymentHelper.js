@@ -27,7 +27,7 @@ module.exports = {
         razorpayPayment.verifyPayment(req.body).then(order => {
             console.log(order);
             console.log(req.params.id);
-            paymentSchema.updateOne({ userId:req.params.id }, {
+            paymentSchema.updateOne({ userId:ObjectId(req.params.id) }, {
                 paymentId: order.id,
                 amount: order.amount / 100,
                 paymentStatus: order.status,
@@ -37,6 +37,7 @@ module.exports = {
                 fee: order.fee / 100,
                 tax: order.tax / 100,
             }, (err, data) => {
+                console.log(data);
                 if (err) {
                     res.json({ error: err, message: 'Payment updation failed' });
                 } else {
