@@ -7,8 +7,8 @@ const ObjectId = mongoose.Types.ObjectId;
 module.exports = {
     //<!===== create payment order and inset userid,orderId to database =======/> //
     paymentOrder: (req, res) => {
-        console.log(req.body);
         razorpayPayment.createOrder(req.body.amount).then(order => {
+            console.log(order);
             if (order.status === 'created') {
                 const paymentData = paymentSchema({
                     orderId: order.id,
