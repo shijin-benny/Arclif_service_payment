@@ -28,16 +28,13 @@ module.exports = {
     //<!========= verify payment and update payment status to database ========/>//
     paymentVerify: (req, res) => {
         razorpayPayment.verifyPayment(req.body).then(order => {
-            paymentSchema.updateOne({ userId:ObjectId(req.params.id) }, {
+            paymentSchema.updateOne({ userId:ObjectId(req.params.id) },{$set:{
                 paymentId: order.id,
                 amount: order.amount / 100,
                 paymentStatus: order.status,
                 method: order.method,
                 email: order.email,
-                orderId: order.order_id,
-                fee: order.fee / 100,
-                tax: order.tax / 100,
-            }, (err, data) => {
+            }}, (err, data) => {
                 if (err) {
                     res.json({ error: err, message: 'Payment updation failed' });
                 } else {

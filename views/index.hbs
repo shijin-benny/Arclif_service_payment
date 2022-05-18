@@ -25,9 +25,10 @@
     </div>
 </body>
 <script>
+    const amount = 100
     axios.post('/api/paymentOrder', {
         "userId": "6274dd3d83fe8a8f8c674007",
-        "amount": "100",
+        "amount": amount,
 
     }).then((info) => {
         const userId="6274dd3d83fe8a8f8c674007"
