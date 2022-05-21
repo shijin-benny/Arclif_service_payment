@@ -120,7 +120,7 @@ module.exports = {
                     res.json({ error: err, message: 'Payment updation failed' });
                 } else {
                     sendMail.receiptMail(order).then(mail => {
-                        res.json({ status: 200, message: 'Payment verified successfully' });
+                       res.redirect('https://agriha.arclif.com/success');
                     }).catch(err => {
                         res.json({ error: err, message: 'Payment verified successfully but mail sending failed' });
                     })
