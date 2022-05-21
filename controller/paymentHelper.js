@@ -11,7 +11,7 @@ module.exports = {
     paymentOrder: async(req, res) => {
         try {
             if(req.body.stage && req.body.userId){
-            const orderId = await paymentSchema.findOne({$and:[{userId:userId},{stage:Stage}]});
+            const orderId = await paymentSchema.findOne({$and:[{userId:req.body.userId},{stage:req.body.stage}]});
             if(orderId){
                 res.status(200).json({
                     status: 200,
@@ -92,6 +92,7 @@ module.exports = {
     fileUpload: (req, res) => {
         try {
         console.log(req.body);
+        console.log(req.params.id);
         const fileData = new filedataupload({
             userId: req.params.id,
             fileName: req.body.fileName,
