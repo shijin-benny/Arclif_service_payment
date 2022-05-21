@@ -79,34 +79,6 @@ module.exports = {
             res.json({ status: 500, message: 'Payment not verified' });
         })
     },
-    delete: (req, res) => {
-        console.log(req.body);
-        paymentSchema.deleteMany({ userId: ObjectId(req.body.id) }, (err, data) => {
-            if (err) {
-                res.json({ error: err, message: 'Payment deletion failed' });
-            } else {
-                res.json({ status: 200, message: 'Payment deleted successfully' });
-            }
-        })
-    },
-    // fileUpload: (req, res) => {
-    //     try {
-    //     console.log(req.body);
-    //     console.log(req.params.id);
-    //     console.log('file upload');
-    //     const fileData = new filedataupload({
-    //         login_id: req.params.id,
-    //         filename: req.body.filename,
-    //     })
-    //     fileData.save().then(data => {
-    //         res.json({ status: 200, message: 'File uploaded successfully' });
-    //     }) .catch(err => {
-    //         res.json({ error: err, message: 'File upload failed' });
-    //     })             
-    //     } catch (error) {
-    //         console.log(error);
-    //         res.json({error:error,message:'something went wrong'});
-    //     }
+    
 
-    // }
 }
