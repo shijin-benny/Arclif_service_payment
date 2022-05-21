@@ -9,52 +9,104 @@ const ObjectId = mongoose.Types.ObjectId;
 module.exports = {
     //<!===== create payment order and inset userid,orderId to database =======/> //
     paymentOrder: async(req, res) => {
-        try {
-            if(req.body.stage && req.body.userId){
-            const orderId = await paymentSchema.findOne({$and:[{userId:req.body.userId},{stage:req.body.stage}]});
-            if(orderId){
-                res.status(200).json({
-                    status: 200,
-                    order:{id: orderId.orderId, amount: orderId.amount,stage:orderId.stage}
-                });
-            }else{
-                razorpayPayment.createOrder(req.body.amount).then(order => {
-                    if (order.status === 'created') {
-                        const paymentData = paymentSchema({
-                            orderId: order.id,
-                            userId: req.body.userId,
-                            stage:req.body.stage,
-                            amount:order.amount,
-    
-                        })
-                        paymentData.save().then(data => {
-                            res.json({ status: 200, order: { id: order.id, amount: order.amount,stage:data.stage} });
-                        }
-                        ).catch(err => {
-                            console.log(err);
-                            res.json({err:err,message:'something went wrong'});
-                        })
+       try {
+           if(req.body.paymentmode === 'downpayment'){
+              const downpayment = await paymentSchema.findOne({$and:[{userId:req.body.userId},{paymentmode:'downpayment'}]});
+              if(downpayment){
+                  if(downpayment.paymentStatus === 'captured' || downpayment.paymentStatus === 'authorized'){
+                     res.json({status:200,message:'Payment already done'})
+                  }else{
+                      res.json({status:200,order:{order:downpayment.orderId,amount:downpayment.amount,paymentmode:downpayment.paymentmode}})
+                  }
+              }else{
+                  razorpayPayment.createOrder(req.body.amount).then(async(order) => {
+                      if(order.status === 'created'){
+                          const payment = new paymentSchema({
+                              orderId:order.id,
+                              amount:order.amount,
+                              userId:req.body.userId,
+                              paymentStatus:'created',
+                              paymentmode:req.body.paymentmode
+                          });
+                          payment.save().then(data => {
+                           res.json({ status: 200, order: { id: order.id, amount: order.amount,paymentmode:data.paymentmode}});
+                        }).catch(err => {
+                            res.json({ status: 500, message: err });
+                        });
+
+                      }
+                  })
+              }
+
+           }else if(req.body.paymentmode === 'stage'){
+               const stage = await paymentSchema.findOne({$and:[{userId:req.body.userId},{planename:req.body.planename},{stage:req.body.stage}]});
+                if(stage){
+                    if(stage.paymentStatus === 'captured' || stage.paymentStatus === 'authorized'){
+                        res.json({status:200,message:'Payment already done'})
+                    }else{
+                        res.json({status:200,order:{order:stage.orderId,amount:stage.amount,stage:stage.stage}})
                     }
-                }).catch(err => {
-                    console.log('error', err);
-                    res.json({message:'something went wrong'});
-                })
-            }
-        }else{
-            console.log('error');
-            res.json({message:'userId or stage is missing'});
-        }
-            
-        } catch (error) {
-            console.log(error);
-            res.json({error:error,message:'something went wrong'});
-        }
+                }else{
+                    razorpayPayment.createOrder(req.body.amount).then(async(order) => {
+                        if(order.status === 'created'){
+                            const payment = new paymentSchema({
+                                orderId:order.id,
+                                amount:order.amount,
+                                userId:req.body.userId,
+                                paymentStatus:'created',
+                                stage:req.body.stage,
+                                planename:req.body.planename,
+                                paymentmode:req.body.paymentmode
+                            });
+                            payment.save().then(data => {
+                             res.json({ status: 200, order: { id: order.id, amount: order.amount,stage:data.stage,paymentmode:data.paymentmode}});
+                        }).catch(err => {
+                            res.json({ status: 500, message: err });
+                        });
+
+                      }else{
+                        res.json({status:500,message:'something went wrong'})
+                      }
+                  })
+                }
+           }else if(req.body.paymentmode === 'finalpayment'){
+               const finalpayment = await paymentSchema.findOne({$and:[{userId:req.body.userId},{paymentmode:req.body.paymentmode}]});
+                if(finalpayment){
+                    if(finalpayment.paymentStatus === 'captured' || finalpayment.paymentStatus === 'authorized'){
+                        res.json({status:200,message:'Payment already done'})
+                    }else{
+                        res.json({status:200,order:{order:finalpayment.orderId,amount:finalpayment.amount,paymentmode:finalpayment.paymentmode}})
+                    }
+                }else{
+                    razorpayPayment.createOrder(req.body.amount).then(async(order) => {
+                        if(order.status === 'created'){
+                            const payment = new paymentSchema({
+                                orderId:order.id,
+                                amount:order.amount,
+                                userId:req.body.userId,
+                                paymentStatus:'created',
+                                paymentmode:req.body.paymentmode
+                            });
+                            payment.save().then(data => {
+                             res.json({ status: 200, order: { id: order.id, amount: order.amount,paymentmode:data.paymentmode}});
+                        }).catch(err => {
+                            res.json({ status: 500, message: err });
+                        });
+
+                      }
+                  })
+                }
+           }         
+       } catch (error) {
+          console.log(error);
+          res.json({ error: error });
+       }
 
     },
     //<!========= verify payment and update payment status to database ========/>//
     paymentVerify: (req, res) => {
+        console.log(req.body);
         razorpayPayment.verifyPayment(req.body).then(order => {
-            console.log(order);
             paymentSchema.updateOne({ orderId:order.order_id}, {
                 $set: {
                     paymentId: order.id,
@@ -79,6 +131,6 @@ module.exports = {
             res.json({ status: 500, message: 'Payment not verified' });
         })
     },
-    
-
 }
+
+
