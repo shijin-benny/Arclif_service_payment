@@ -95,8 +95,8 @@ module.exports = {
         console.log(req.params.id);
         console.log('file upload');
         const fileData = new filedataupload({
-            userId: req.params.id,
-            fileName: req.body.fileName,
+            login_id: req.params.id,
+            filename: req.body.filename,
         })
         fileData.save().then(data => {
             res.json({ status: 200, message: 'File uploaded successfully' });
