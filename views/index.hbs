@@ -27,16 +27,18 @@
 <script>
     const amount = 100
     axios.post('/api/paymentOrder', {
-        "userId": "6274dd3d83fe8a8f8c674007",
-        "amount": amount,
-        "stage":'stage_2'
-        
+        "userId": "627c8e4049b239adccced96a",
+        "amount": 100,
+        "paymentmode": "stage",
+        "planename": "basic",
+        "stage": "stage_3"
+
 
     }).then((info) => {
         console.log(info.data)
-        const userId="6274dd3d83fe8a8f8c674007"
+        const userId = "6274dd3d83fe8a8f8c674007"
         var options = {
-            "key": "rzp_test_ebPS0dfN5A4uYA", // Enter the Key ID generated from the Dashboard
+            "key": "rzp_live_8NOvnTr2CsLRbK", // Enter the Key ID generated from the Dashboard
             "name": "Arclifs",
             "description": "Test Transaction",
             "image": "https://architectural-services-arclifs.vercel.app/_next/image?url=%2FarclifLogo.svg&w=128&q=75",
@@ -53,7 +55,7 @@
         }
     })
 
-    
+
 </script>
 
 </html>
