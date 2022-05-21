@@ -93,6 +93,7 @@ module.exports = {
         try {
         console.log(req.body);
         console.log(req.params.id);
+        console.log('file upload');
         const fileData = new filedataupload({
             userId: req.params.id,
             fileName: req.body.fileName,
