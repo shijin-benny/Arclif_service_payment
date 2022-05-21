@@ -29,8 +29,10 @@
     axios.post('/api/paymentOrder', {
         "userId": "6274dd3d83fe8a8f8c674007",
         "amount": amount,
+        
 
     }).then((info) => {
+        console.log(info.data)
         const userId="6274dd3d83fe8a8f8c674007"
         var options = {
             "key": "rzp_test_ebPS0dfN5A4uYA", // Enter the Key ID generated from the Dashboard

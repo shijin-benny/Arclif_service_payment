@@ -25,6 +25,9 @@ const paymentSchema = new mongoose.Schema({
     email:{
         type:String,
     },
+    stage:{
+        type:String,
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Payment', paymentSchema);

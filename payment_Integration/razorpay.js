@@ -11,7 +11,7 @@ module.exports = {
     
 //<!================== create Order ===========================/>//
     createOrder: (amount) => {
-        console.log(amount);
+       try {
         return new Promise((resolve, reject) => {
             razorpay.orders.create({
                 amount: amount * 100,
@@ -24,6 +24,10 @@ module.exports = {
                 }
             });
         })
+       } catch (error) {
+              console.log(error);
+       }
+        
     },
 //<!================== verify payment ===========================/>//
     verifyPayment: (paymentData) => {
