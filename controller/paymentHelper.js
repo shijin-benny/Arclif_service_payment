@@ -89,24 +89,24 @@ module.exports = {
             }
         })
     },
-    fileUpload: (req, res) => {
-        try {
-        console.log(req.body);
-        console.log(req.params.id);
-        console.log('file upload');
-        const fileData = new filedataupload({
-            login_id: req.params.id,
-            filename: req.body.filename,
-        })
-        fileData.save().then(data => {
-            res.json({ status: 200, message: 'File uploaded successfully' });
-        }) .catch(err => {
-            res.json({ error: err, message: 'File upload failed' });
-        })             
-        } catch (error) {
-            console.log(error);
-            res.json({error:error,message:'something went wrong'});
-        }
+    // fileUpload: (req, res) => {
+    //     try {
+    //     console.log(req.body);
+    //     console.log(req.params.id);
+    //     console.log('file upload');
+    //     const fileData = new filedataupload({
+    //         login_id: req.params.id,
+    //         filename: req.body.filename,
+    //     })
+    //     fileData.save().then(data => {
+    //         res.json({ status: 200, message: 'File uploaded successfully' });
+    //     }) .catch(err => {
+    //         res.json({ error: err, message: 'File upload failed' });
+    //     })             
+    //     } catch (error) {
+    //         console.log(error);
+    //         res.json({error:error,message:'something went wrong'});
+    //     }
 
-    }
+    // }
 }
