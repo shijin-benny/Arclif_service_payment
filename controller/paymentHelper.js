@@ -16,7 +16,7 @@ module.exports = {
                   if(downpayment.paymentStatus === 'captured' || downpayment.paymentStatus === 'authorized'){
                      res.json({status:200,message:'Payment already done'})
                   }else{
-                      res.json({status:200,order:{order:downpayment.orderId,amount:downpayment.amount,paymentmode:downpayment.paymentmode}})
+                      res.json({status:200,order:{id:downpayment.orderId,amount:downpayment.amount,paymentmode:downpayment.paymentmode}})
                   }
               }else{
                   razorpayPayment.createOrder(req.body.amount).then(async(order) => {
@@ -44,7 +44,7 @@ module.exports = {
                     if(stage.paymentStatus === 'captured' || stage.paymentStatus === 'authorized'){
                         res.json({status:200,message:'Payment already done'})
                     }else{
-                        res.json({status:200,order:{order:stage.orderId,amount:stage.amount,stage:stage.stage}})
+                        res.json({status:200,order:{id:stage.orderId,amount:stage.amount,stage:stage.stage}})
                     }
                 }else{
                     razorpayPayment.createOrder(req.body.amount).then(async(order) => {
@@ -59,8 +59,10 @@ module.exports = {
                                 paymentmode:req.body.paymentmode
                             });
                             payment.save().then(data => {
+                                console.log(data);
                              res.json({ status: 200, order: { id: order.id, amount: order.amount,stage:data.stage,paymentmode:data.paymentmode}});
                         }).catch(err => {
+                            console.log(err);
                             res.json({ status: 500, message: err });
                         });
 
@@ -75,7 +77,7 @@ module.exports = {
                     if(finalpayment.paymentStatus === 'captured' || finalpayment.paymentStatus === 'authorized'){
                         res.json({status:200,message:'Payment already done'})
                     }else{
-                        res.json({status:200,order:{order:finalpayment.orderId,amount:finalpayment.amount,paymentmode:finalpayment.paymentmode}})
+                        res.json({status:200,order:{id:finalpayment.orderId,amount:finalpayment.amount,paymentmode:finalpayment.paymentmode}})
                     }
                 }else{
                     razorpayPayment.createOrder(req.body.amount).then(async(order) => {
@@ -105,8 +107,8 @@ module.exports = {
     },
     //<!========= verify payment and update payment status to database ========/>//
     paymentVerify: (req, res) => {
-        console.log(req.body);
         razorpayPayment.verifyPayment(req.body).then(order => {
+            console.log(order);
             paymentSchema.updateOne({ orderId:order.order_id}, {
                 $set: {
                     paymentId: order.id,
@@ -114,8 +116,12 @@ module.exports = {
                     paymentStatus: order.status,
                     method: order.method,
                     email: order.email,
+                    bank: order.bank,
+                    contact: order.contact,
+                    acquirer_data: order.acquirer_data,
                 }
             }, (err, data) => {
+                console.log(data);
                 if (err) {
                     res.json({ error: err, message: 'Payment updation failed' });
                 } else {

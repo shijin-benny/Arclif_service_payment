@@ -22,12 +22,19 @@ const paymentSchema = new mongoose.Schema({
         type: String,
 
     },
+    bank: {
+        type: String,
+    },
+    contact: {
+        type: String,
+    },
     email:{
         type:String,
     },
     stage:{
         type:String,
     },
+    acquirer_data:[],
     paymentmode:{
         type:String,
     },
