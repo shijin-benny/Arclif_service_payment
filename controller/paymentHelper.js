@@ -40,7 +40,8 @@ module.exports = {
               }
 
            }else if(req.body.paymentmode === 'stage'){
-               const stage = await paymentSchema.findOne({$and:[{userId:req.body.userId},{planename:req.body.planename},{stage:req.body.stage}]});
+                console.log(req.body);
+               const stage = await paymentSchema.findOne({$and:[{userId:req.body.userId},{planname:req.body.planname},{stage:req.body.stage}]});
                 if(stage){
                     if(stage.paymentStatus === 'captured' || stage.paymentStatus === 'authorized'){
                         res.json({status:200,message:'Payment already done'})
@@ -57,7 +58,7 @@ module.exports = {
                                 userId:req.body.userId,
                                 paymentStatus:'created',
                                 stage:req.body.stage,
-                                planename:req.body.planename,
+                                planname:req.body.planname,
                                 paymentmode:req.body.paymentmode
                             });
                             payment.save().then(data => {

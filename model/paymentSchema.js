@@ -38,7 +38,7 @@ const paymentSchema = new mongoose.Schema({
     paymentmode:{
         type:String,
     },
-    planename:{
+    planname:{
         type:String,
     }
 }, { timestamps: true });
