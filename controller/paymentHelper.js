@@ -45,6 +45,7 @@ module.exports = {
                     if(stage.paymentStatus === 'captured' || stage.paymentStatus === 'authorized'){
                         res.json({status:200,message:'Payment already done'})
                     }else{
+                        console.log(stage);
                         res.json({status:200,order:{id:stage.orderId,amount:stage.amount,stage:stage.stage}})
                     }
                 }else{
