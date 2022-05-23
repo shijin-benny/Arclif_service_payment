@@ -10,6 +10,7 @@ module.exports = {
     //<!===== create payment order and inset userid,orderId to database =======/> //
     paymentOrder: async(req, res) => {
        try {
+           console.log(req.body);
            if(req.body.paymentmode === 'downpayment'){
               const downpayment = await paymentSchema.findOne({$and:[{userId:req.body.userId},{paymentmode:'downpayment'}]});
               if(downpayment){

@@ -28,17 +28,17 @@
     const amount = 100
     axios.post('/api/paymentOrder', {
         "userId": "627a2f53ee9435301f491985",
-        "amount": 100,
+        "amount": 1,
         "paymentmode": "stage",
         "planename": "basic",
-        "stage": "stage_1"
+        "stage": "stage_2"
 
 
     }).then((info) => {
         console.log(info.data)
         const userId = "6274dd3d83fe8a8f8c674007"
         var options = {
-            "key": "rzp_test_ebPS0dfN5A4uYA", // Enter the Key ID generated from the Dashboard
+            "key": "rzp_live_N1mEU44ddNNCyY", // Enter the Key ID generated from the Dashboard
             "name": "Arclifs",
             "description": "Test Transaction",
             "image": "https://architectural-services-arclifs.vercel.app/_next/image?url=%2FarclifLogo.svg&w=128&q=75",
