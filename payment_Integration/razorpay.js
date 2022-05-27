@@ -11,11 +11,11 @@ module.exports = {
   //<!================== create Order ===========================/>//
   createOrder: (amount) => {
     try {
-        console.log("createOrder" +amount) ;
+      console.log("createOrder" + amount);
       return new Promise((resolve, reject) => {
         razorpay.orders.create(
           {
-            amount: amount * 1000,
+            amount: amount * 100,
             currency: "INR",
           },
           function (err, order) {
