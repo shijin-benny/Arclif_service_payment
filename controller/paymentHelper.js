@@ -121,6 +121,7 @@ module.exports = {
           });
         }
       } else if (req.body.paymentmode === "finalpayment") {
+        console.log(req.body);
         const finalpayment = await paymentSchema.findOne({
           $and: [
             { userId: req.body.userId },
