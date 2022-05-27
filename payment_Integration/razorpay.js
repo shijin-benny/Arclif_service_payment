@@ -11,6 +11,7 @@ module.exports = {
   //<!================== create Order ===========================/>//
   createOrder: (amount) => {
     try {
+        console.log("createOrder" +amount) ;
       return new Promise((resolve, reject) => {
         razorpay.orders.create(
           {
