@@ -145,6 +145,7 @@ module.exports = {
           }
         } else {
           razorpayPayment.createOrder(req.body.amount).then(async (order) => {
+            console.log(order);
             if (order.status === "created") {
               const payment = new paymentSchema({
                 orderId: order.id,
