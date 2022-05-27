@@ -18,7 +18,7 @@ module.exports = {
             currency: "INR",
           },
           function (err, order) {
-            console.log(order);
+            console.log(order + "create order");
             if (err) {
               reject(err);
             } else {
