@@ -11,7 +11,6 @@ module.exports = {
   paymentOrder: async (req, res) => {
     try {
       if (req.body.paymentmode === "downpayment") {
-        console.log(req.body);
         const downpayment = await paymentSchema.findOne({
           $and: [{ userId: req.body.userId }, { paymentmode: "downpayment" }],
         });
@@ -60,7 +59,6 @@ module.exports = {
           });
         }
       } else if (req.body.paymentmode === "stage") {
-        console.log(req.body);
         const stage = await paymentSchema.findOne({
           $and: [
             { userId: req.body.userId },
@@ -100,7 +98,6 @@ module.exports = {
               payment
                 .save()
                 .then((data) => {
-                  console.log(data);
                   res.json({
                     status: 200,
                     order: {
@@ -121,7 +118,6 @@ module.exports = {
           });
         }
       } else if (req.body.paymentmode === "finalpayment") {
-        console.log(req.body);
         const finalpayment = await paymentSchema.findOne({
           $and: [
             { userId: req.body.userId },
@@ -146,7 +142,6 @@ module.exports = {
           }
         } else {
           razorpayPayment.createOrder(req.body.amount).then(async (order) => {
-            console.log(order);
             if (order.status === "created") {
               const payment = new paymentSchema({
                 orderId: order.id,
