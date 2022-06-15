@@ -154,7 +154,7 @@
             </div>
           </div>
           <div class="u-row-container" style="padding: 0px;background-color: transparent">
-            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #0f745a;">
+            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #0c0c0c;">
               <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
                 <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #003399;"><![endif]-->
 
@@ -231,26 +231,22 @@
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
 
                               <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
-                                <p style="font-size: 14px; line-height: 160%; text-align: right;">Payment Id : {{paymentId}}</p>
                                 <p style="text-align: left; font-size: 14px; line-height: 160%;">&nbsp;</p>
                                 <p style="text-align: left; font-size: 14px; line-height: 160%;">&nbsp;</p>
-                                <p style="text-align: left; font-size: 14px; line-height: 160%;">Hi user,<br />This is the receipt for a payment of Rs{{amount}}.00 (INR) for your works</p>
+                                <p style="text-align: left; font-size: 14px; line-height: 160%;">Hi {{username}},<br />This is the receipt for a payment of Rs : {{amount}}.00 (INR) for your works</p>
                                 <p style="text-align: left; font-size: 14px; line-height: 160%;">&nbsp;</p>
-                                <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </p>
-                                <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                 payment Method: {{method}}</p>
-                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                  payment status: {{status}}</p>
-                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                   payment amount: {{amount}}</p>
-                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                 payment fee: {{fee}}</p>
-                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                  payment tax: {{tax}}</p>
-                                <p style="font-size: 14px; line-height: 160%; text-align: right;"><span style="text-align: right; font-size: 14px; line-height:20px;">Total : Rs{{total}}</span></p>
+                                <p style="font-size: 14px; line-height: 160%; text-align: justify;">
+                                 payment Id &nbsp;:&nbsp; {{paymentId}}</p>
+                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">
+                                 Paid On  &nbsp;:&nbsp; {{date}}</p>
+                                  <p style="font-size: 14px; line-height: 160%; text-align: justify;">
+                                   Method  &nbsp;:&nbsp; {{method}}</p>
+                                   <p style="font-size: 14px; line-height: 160%; text-align: justify;">
+                                   Email &nbsp; &nbsp;:&nbsp; {{email}}</p>
+                                   <p style="font-size: 14px; line-height: 160%; text-align: justify;">
+                                   Mobile Number&nbsp;:&nbsp; {{contact}}</p>
+                                <p style="font-size: 14px; line-height: 160%; text-align: right;"><span style="text-align: right; font-size: 14px; line-height:20px;">Total : Rs {{total}}</span></p>
                               </div>
-
                             </td>
                           </tr>
                         </tbody>
@@ -300,7 +296,7 @@
 
                               <div style="color: #003399; line-height: 160%; text-align: center; word-wrap: break-word;">
                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 20px; line-height: 32px;"><strong>Get in touch</strong></span></p>
-                                <p style="font-size: 14px; line-height: 160%;">https://www.arclif.com/</p>
+                                <p style="font-size: 14px; line-height: 160%;">https://agriha.arclif.com</p>
                               </div>
 
                             </td>
@@ -412,7 +408,7 @@
 
 
           <div class="u-row-container" style="padding: 0px;background-color: transparent">
-            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #0f745a;">
+            <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #070808;">
               <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
                 <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #003399;"><![endif]-->
 

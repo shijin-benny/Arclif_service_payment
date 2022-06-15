@@ -7,7 +7,7 @@ const async = require("hbs/lib/async");
 const ObjectId = mongoose.Types.ObjectId;
 
 module.exports = {
-  //<!===== create payment order and inset userid,orderId to database =======/> //
+  //<!===== create payment order and insert userid,orderId and username to database =======/> //
   paymentOrder: async (req, res) => {
     try {
       if (req.body.paymentmode === "downpayment") {
@@ -37,6 +37,7 @@ module.exports = {
                 orderId: order.id,
                 amount: order.amount,
                 userId: req.body.userId,
+                userName: req.body.userName,
                 paymentStatus: "created",
                 paymentmode: req.body.paymentmode,
               });
@@ -73,7 +74,6 @@ module.exports = {
           ) {
             res.json({ status: 200, message: "Payment already done" });
           } else {
-            console.log(stage);
             res.json({
               status: 200,
               order: {
@@ -91,6 +91,7 @@ module.exports = {
                 amount: order.amount,
                 userId: req.body.userId,
                 paymentStatus: "created",
+                userName: req.body.userName,
                 stage: req.body.stage,
                 planname: req.body.planname,
                 paymentmode: req.body.paymentmode,
@@ -147,6 +148,7 @@ module.exports = {
                 orderId: order.id,
                 amount: order.amount,
                 userId: req.body.userId,
+                userName: req.body.userName,
                 paymentStatus: "created",
                 paymentmode: req.body.paymentmode,
               });
@@ -179,8 +181,7 @@ module.exports = {
     razorpayPayment
       .verifyPayment(req.body)
       .then((order) => {
-        console.log(order);
-        paymentSchema.updateOne(
+        paymentSchema.findOneAndUpdate(
           { orderId: order.order_id },
           {
             $set: {
@@ -195,14 +196,23 @@ module.exports = {
             },
           },
           (err, data) => {
-            console.log(data);
             if (err) {
               res.json({ error: err, message: "Payment updation failed" });
             } else {
               sendMail
-                .receiptMail(order)
+                .receiptMail(order, data.userName)
                 .then((mail) => {
-                  res.redirect("https://agriha.arclif.com/success");
+                  sendMail
+                    .welcomeMail(order.email, data.userName)
+                    .then((welcomeMail) => {
+                      res.redirect("https://agriha.arclif.com/success");
+                    })
+                    .catch((err) => {
+                      res.json({
+                        error: err,
+                        message: "welcome mail sending failed",
+                      });
+                    });
                 })
                 .catch((err) => {
                   res.json({
@@ -217,6 +227,17 @@ module.exports = {
       })
       .catch((err) => {
         res.json({ status: 500, message: "Payment not verified" });
+      });
+  },
+  welcome: (req, res) => {
+    console.log("working");
+    sendMail
+      .welcomeMail()
+      .then((mail) => {
+        res.json({ status: 200, message: "Mail sent successfully" });
+      })
+      .catch((err) => {
+        res.json({ status: 500, message: "Mail sending failed" });
       });
   },
 };

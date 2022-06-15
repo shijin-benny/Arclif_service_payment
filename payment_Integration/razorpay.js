@@ -9,6 +9,7 @@ const razorpay = new Razorpay({
 
 module.exports = {
   //<!================== create Order ===========================/>//
+
   createOrder: (amount) => {
     try {
       console.log("createOrder" + amount);
@@ -32,9 +33,10 @@ module.exports = {
       console.log(error);
     }
   },
+
   //<!================== verify payment ===========================/>//
+
   verifyPayment: (paymentData) => {
-    console.log(paymentData);
     return new Promise((resolve, reject) => {
       razorpay.payments.fetch(
         paymentData.razorpay_payment_id,

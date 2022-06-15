@@ -12,7 +12,8 @@
     "nodemailer-express-handlebars": "^5.0.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
-    "razorpay": "^2.8.1"
+    "razorpay": "^2.8.1",
+    "xlsx": "^0.18.5"
   },
   "name": "arclfs-services",
   "version": "1.0.0",
