@@ -1,10 +1,15 @@
 const paymentSchema = require("../model/paymentSchema");
 const razorpayPayment = require("../payment_Integration/razorpay");
 const sendMail = require("../controller/Nodemailer/nodemailer");
+const saveSendEmail = require("../model/mailDetails");
 const filedataupload = require("../model/fileupload");
 const mongoose = require("mongoose");
 const async = require("hbs/lib/async");
 const ObjectId = mongoose.Types.ObjectId;
+const reader = require("xlsx");
+const util = require("util");
+const fs = require("fs");
+const unlinkFile = util.promisify(fs.unlink);
 
 module.exports = {
   //<!===== create payment order and insert userid,orderId and username to database =======/> //
@@ -229,15 +234,49 @@ module.exports = {
         res.json({ status: 500, message: "Payment not verified" });
       });
   },
-  welcome: (req, res) => {
-    console.log("working");
-    sendMail
-      .welcomeMail()
-      .then((mail) => {
-        res.json({ status: 200, message: "Mail sent successfully" });
-      })
-      .catch((err) => {
-        res.json({ status: 500, message: "Mail sending failed" });
-      });
+  // file upload
+  fileUpload: async (req, res) => {
+    try {
+      const file = reader.readFile(req.file.path);
+      let data = [];
+      const sheets = file.SheetNames;
+      for (let i = 0; i < sheets.length; i++) {
+        const temp = await reader.utils.sheet_to_json(
+          file.Sheets[file.SheetNames[i]]
+        );
+        temp.forEach((res) => {
+          data.push(res);
+        });
+      }
+      if (data.length > 0) {
+        const result = await data.map((data) => {
+          sendMail
+            .welcomeMail(data.Email, data["FIRSTNAME"])
+            .then((resp) => {
+              const saveMails = new saveSendEmail({
+                email: data.Email,
+                username: data.FIRSTNAME,
+                status: true,
+              });
+              saveMails.save();
+            })
+            .catch((err) => {
+              const saveMails = new saveSendEmail({
+                email: data.Email,
+                username: data.FIRSTNAME,
+                status: false,
+              });
+              saveMails.save();
+            });
+
+          return true;
+        });
+        res.json({ status: 200, Message: "send successfully" });
+        unlinkFile(req.file.path);
+      }
+    } catch (error) {
+      console.log(error);
+      res.json({ error: error });
+    }
   },
 };

@@ -2,7 +2,6 @@ const reader = require("xlsx");
 const file = reader.readFile("excel.xlsx");
 
 let data = [];
-
 const sheets = file.SheetNames;
 
 for (let i = 0; i < sheets.length; i++) {

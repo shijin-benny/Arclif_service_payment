@@ -26,7 +26,7 @@ async function sendEmail(mailOptions) {
       service: "gmail",
       auth: {
         type: "OAuth2",
-        user: "t67206475@gmail.com",
+        user: "info.arclif@gmail.com",
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
@@ -64,7 +64,7 @@ module.exports = {
     var yyyy = today.getFullYear();
     return new Promise((resolve, reject) => {
       const mailOptions = {
-        from: "t67206475@gmail.com",
+        from: "info.arclif@gmail.com",
         to: order.email,
         subject: "Order Receipt",
         template: "receipt",
@@ -100,17 +100,21 @@ module.exports = {
   welcomeMail: (email, username) => {
     return new Promise((resolve, reject) => {
       const mailOptions = {
-        from: "t67206475@gmail.com",
+        from: "info.arclif@gmail.com",
         to: email,
         subject: "Welcome to Arclif",
-        template: "welcome",
+        template: "welcomeMail",
         context: {
           username: username,
         },
       };
       sendEmail(mailOptions)
         .then((result) => {
-          resolve({ message: "Welcome mail sent successfully" });
+          if (result.accepted) {
+            resolve({ message: "Welcome mail sent successfully" });
+          } else {
+            reject({ message: "welcome mail sending failed" });
+          }
         })
         .catch((error) => {
           reject(error);
