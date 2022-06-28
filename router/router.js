@@ -1,6 +1,11 @@
 const router = require("express").Router();
-const paymenthelper = require("../controller/paymentHelper");
+const helper = require("../controller/paymentHelper");
 const multer = require("multer");
+const { GridFsStorage } = require("multer-gridfs-storage");
+const url = "mongodb+srv://shijinbenny:test123@cluster0.321i8.mongodb.net/?retryWrites=true&w=majority
+// Create a storage object with a given configuration
+const storage2 = new GridFsStorage({ url });
+const upload2 = multer({ storage });
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,12 +24,12 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage }).single("file");
 //<!================ Payment Order =====================/>
-router.post("/paymentOrder", paymenthelper.paymentOrder);
+router.post("/paymentOrder", helper.paymentOrder);
 
 //<!================ Payment Verify =====================/>
-router.post("/verifyPayment/:id", paymenthelper.paymentVerify);
+router.post("/verifyPayment", helper.paymentVerify);
 
-// router.post('/filedataupload/:id',paymenthelper.fileUpload);
+// router.post('/filedataupload/:id',helper.fileUpload);
 
 router.get("/get", (req, res) => {
   res.render("index");
@@ -36,6 +41,11 @@ router.get("/welcome", (req, res) => {
   res.render("welcomeMail");
 });
 
-router.post("/filedataupload", upload, paymenthelper.fileUpload);
+// router.post("/filedataupload", upload, helper.fileUpload);
+router.get("/contactCount", helper.getContacts);
+router.get("/sendMail", helper.ExistingusermailSend);
+router.post("/enquiry", helper.addenquirydetails);
+router.get("/getenquiry", helper.getenquiryDetails);
+router.post("addProduct", upload2.single('file'), helper.addProduct);
 
 module.exports = router;

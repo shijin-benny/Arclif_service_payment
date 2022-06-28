@@ -98,27 +98,33 @@ module.exports = {
 
   //<!================== welcome mail  ===========================/>//
   welcomeMail: (email, username) => {
-    return new Promise((resolve, reject) => {
-      const mailOptions = {
-        from: "info.arclif@gmail.com",
-        to: email,
-        subject: "Welcome to Arclif",
-        template: "welcomeMail",
-        context: {
-          username: username,
-        },
-      };
-      sendEmail(mailOptions)
-        .then((result) => {
-          if (result.accepted) {
-            resolve({ message: "Welcome mail sent successfully" });
-          } else {
-            reject({ message: "welcome mail sending failed" });
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    if (email) {
+      return new Promise((resolve, reject) => {
+        const mailOptions = {
+          from: "info.arclif@gmail.com",
+          to: email,
+          subject: "Welcome to Arclif",
+          template: "welcomeMail",
+          context: {
+            username: username,
+          },
+        };
+        sendEmail(mailOptions)
+          .then((result) => {
+            console.log(result);
+            if (result.accepted) {
+              resolve({ message: "Welcome mail sent successfully" });
+            } else {
+              reject({ message: "welcome mail sending failed" });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error);
+          });
+      });
+    } else {
+      reject({ message: "Email or username is missing" });
+    }
   },
 };

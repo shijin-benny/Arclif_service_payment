@@ -1,20 +1,22 @@
 const paymentSchema = require("../model/paymentSchema");
 const razorpayPayment = require("../payment_Integration/razorpay");
 const sendMail = require("../controller/Nodemailer/nodemailer");
-const saveSendEmail = require("../model/mailDetails");
+const existingUsers = require("../model/existingUsers");
+const sendemailDetails = require("../model/sendMails");
 const filedataupload = require("../model/fileupload");
-const mongoose = require("mongoose");
+const EnquiryDetails = require("../model/EnquiryDetails");
 const async = require("hbs/lib/async");
-const ObjectId = mongoose.Types.ObjectId;
 const reader = require("xlsx");
 const util = require("util");
 const fs = require("fs");
+const { log } = require("console");
 const unlinkFile = util.promisify(fs.unlink);
 
 module.exports = {
-  //<!===== create payment order and insert userid,orderId and username to database =======/> //
+  //  create payment order and insert userid,orderId and username to database
   paymentOrder: async (req, res) => {
     try {
+      console.log(req.body);
       if (req.body.paymentmode === "downpayment") {
         const downpayment = await paymentSchema.findOne({
           $and: [{ userId: req.body.userId }, { paymentmode: "downpayment" }],
@@ -181,7 +183,7 @@ module.exports = {
       res.json({ error: error });
     }
   },
-  //<!========= verify payment and update payment status to database ========/>//
+  // verify payment and update payment status to database
   paymentVerify: (req, res) => {
     razorpayPayment
       .verifyPayment(req.body)
@@ -249,34 +251,97 @@ module.exports = {
         });
       }
       if (data.length > 0) {
+        var mailSuccess = 0;
+        var mailfailed = 0;
         const result = await data.map((data) => {
-          sendMail
-            .welcomeMail(data.Email, data["FIRSTNAME"])
-            .then((resp) => {
-              const saveMails = new saveSendEmail({
-                email: data.Email,
-                username: data.FIRSTNAME,
-                status: true,
-              });
-              saveMails.save();
-            })
-            .catch((err) => {
-              const saveMails = new saveSendEmail({
-                email: data.Email,
-                username: data.FIRSTNAME,
-                status: false,
-              });
-              saveMails.save();
-            });
-
-          return true;
+          console.log(data);
         });
-        res.json({ status: 200, Message: "send successfully" });
         unlinkFile(req.file.path);
+      } else {
+        res.json({
+          status: 400,
+          message: "Something went Wrong",
+        });
       }
     } catch (error) {
       console.log(error);
       res.json({ error: error });
+    }
+  },
+  // =====
+  getContacts: async (req, res) => {
+    try {
+      const users = await existingUsers.find({});
+      if (users) {
+        res.json({ status: 200, totalContact: users.length, userData: users });
+      } else {
+        res.json({ status: 400, message: "Existing users data not found" });
+      }
+    } catch (error) {
+      res.json(error);
+    }
+  },
+
+  // Existing users send Mail notification
+  ExistingusermailSend: async (req, res) => {
+    try {
+      const users = await existingUsers.find({});
+      if (users) {
+        const sendMail = users.map((data) => {
+          console.log(data);
+        });
+      } else {
+        res.json({ status: 400, message: "Existing users data not found" });
+      }
+    } catch (error) {
+      res.json({ status: 400, message: "something went Wrong" });
+    }
+  },
+
+  // Landing page Enquiry data save on database
+  addenquirydetails: (req, res) => {
+    try {
+      const AddEnquiry = new EnquiryDetails({
+        email: req.body.email,
+        name: req.body.name,
+        contact: req.body.contact,
+        message: req.body.message,
+      });
+      AddEnquiry.save()
+        .then((resp) => {
+          res.json({ status: 200, message: "Enquiry added successfully" });
+        })
+        .catch((error) => {
+          res.json({ status: 400, error: error.message });
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  // Get enquiry details
+  getenquiryDetails: async (req, res) => {
+    try {
+      const enquiryDetails = await EnquiryDetails.find({}).sort({ _id: -1 });
+      if (enquiryDetails.length > 0) {
+        res.json({ status: 200, enquiryData: enquiryDetails });
+      } else {
+        res.json({ status: 400, message: "Data not found" });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  addProduct: (req, res) => {
+    try {
+      const product = new productSchema({
+        productName:req.body.productname,
+        productCategory:req.body.category,
+        productPrice:req.body.
+      })
+    } catch (error) {
+      res.json({ status: 400, error: error.message });
     }
   },
 };
