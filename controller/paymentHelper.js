@@ -334,12 +334,13 @@ module.exports = {
     }
   },
   addProduct: (req, res) => {
+    console.log(req.file);
     try {
       const product = new productSchema({
-        productName:req.body.productname,
-        productCategory:req.body.category,
-        productPrice:req.body.
-      })
+        productName: req.body.productname,
+        productCategory: req.body.category,
+        productPrice: req.body.price,
+      });
     } catch (error) {
       res.json({ status: 400, error: error.message });
     }

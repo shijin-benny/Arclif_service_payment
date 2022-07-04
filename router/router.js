@@ -1,11 +1,6 @@
 const router = require("express").Router();
 const helper = require("../controller/paymentHelper");
 const multer = require("multer");
-const { GridFsStorage } = require("multer-gridfs-storage");
-const url = "mongodb+srv://shijinbenny:test123@cluster0.321i8.mongodb.net/?retryWrites=true&w=majority
-// Create a storage object with a given configuration
-const storage2 = new GridFsStorage({ url });
-const upload2 = multer({ storage });
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,6 +41,5 @@ router.get("/contactCount", helper.getContacts);
 router.get("/sendMail", helper.ExistingusermailSend);
 router.post("/enquiry", helper.addenquirydetails);
 router.get("/getenquiry", helper.getenquiryDetails);
-router.post("addProduct", upload2.single('file'), helper.addProduct);
 
 module.exports = router;
